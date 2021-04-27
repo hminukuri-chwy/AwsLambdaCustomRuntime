@@ -1,0 +1,46 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("io.micronaut.application") version "1.4.5"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("lambda")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.views:micronaut-views-freemarker")
+    implementation("javax.annotation:javax.annotation-api")
+    implementation("org.apache.logging.log4j:log4j-core:2.13.3")
+    runtimeOnly("org.apache.logging.log4j:log4j-api:2.13.3")
+    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.13.2")
+    compileOnly("org.graalvm.nativeimage:svm")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
+    implementation("io.micronaut.aws:micronaut-function-aws-custom-runtime")
+}
+
+
+application {
+    mainClass.set("io.micronaut.function.aws.runtime.MicronautLambdaRuntime")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+
+
